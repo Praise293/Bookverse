@@ -1165,7 +1165,7 @@
                 
                 <p>"I want in," Kaito said, his decision made before the words left his mouth. "Whatever operation you're planning to find out what happened, I'm leading it."</p>
                 
-                <p>Tanaka studied him, his expression unreadable. "This isn't a revenge mission, Raven. We need clarity, not corpses."</p>
+                <p>Tanaka studied him, his expression unreadable. "This isn't a revenge mission, Raven. We need clarity, not corpses.</p>
                 
                 <p>"I understand, sir. But I knew Echo better than anyone. If there are clues to find, I'll recognize them."</p>
                 
@@ -1652,6 +1652,7 @@
             showModal(publishModal);
         });
 
+        // MODIFIED: Removed alert notifications from form submissions
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1660,9 +1661,8 @@
             submitContactBtn.innerHTML = '<span class="loading"></span> Sending...';
             submitContactBtn.disabled = true;
             
-            // Simulate form submission
+            // Simulate form submission without alert notification
             setTimeout(() => {
-                alert('Thank you for your message! We will get back to you soon.');
                 hideModal(contactModal);
                 contactForm.reset();
                 submitContactBtn.innerHTML = originalText;
@@ -1670,6 +1670,7 @@
             }, 2000);
         });
 
+        // MODIFIED: Removed alert notifications from form submissions
         publishForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1678,9 +1679,8 @@
             submitPublishBtn.innerHTML = '<span class="loading"></span> Submitting...';
             submitPublishBtn.disabled = true;
             
-            // Simulate form submission
+            // Simulate form submission without alert notification
             setTimeout(() => {
-                alert('Thank you for submitting your story! We will review it and get back to you soon.');
                 hideModal(publishModal);
                 publishForm.reset();
                 submitPublishBtn.innerHTML = originalText;
