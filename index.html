@@ -6,7 +6,6 @@
     <title>BookVerse - Read Our Stories</title>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.2.0/css/line.css">
     <style>
-        /* Your existing CSS remains exactly the same */
         @import url('https://fonts.googleapis.com/css2?family=Hachi+Maru+Pop&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
         
         * {
@@ -570,7 +569,7 @@
             transform: none;
         }
         
-        .contact-modal, .publish-modal {
+        .contact-modal, .publish-modal, .portal-modal {
             position: fixed;
             top: 0;
             left: 0;
@@ -585,11 +584,11 @@
             transition: opacity 0.3s ease;
         }
         
-        .contact-modal.active, .publish-modal.active {
+        .contact-modal.active, .publish-modal.active, .portal-modal.active {
             opacity: 1;
         }
         
-        .contact-content, .publish-content {
+        .contact-content, .publish-content, .portal-content {
             background: white;
             padding: 40px;
             border-radius: 0;
@@ -602,11 +601,12 @@
         }
         
         .contact-modal.active .contact-content,
-        .publish-modal.active .publish-content {
+        .publish-modal.active .publish-content,
+        .portal-modal.active .portal-content {
             transform: translateY(0);
         }
         
-        .contact-close-btn, .publish-close-btn {
+        .contact-close-btn, .publish-close-btn, .portal-close-btn {
             position: absolute;
             top: 15px;
             right: 15px;
@@ -624,12 +624,12 @@
             z-index: 10;
         }
         
-        .contact-close-btn:hover, .publish-close-btn:hover {
+        .contact-close-btn:hover, .publish-close-btn:hover, .portal-close-btn:hover {
             background: #c0392b;
             transform: rotate(90deg);
         }
         
-        .contact-content h2, .publish-content h2 {
+        .contact-content h2, .publish-content h2, .portal-content h2 {
             text-align: center;
             margin-bottom: 30px;
             color: #2c3e50;
@@ -787,6 +787,150 @@
             border-color: #3498db;
         }
         
+        /* Portal Modal Styles */
+        .portal-content h2 {
+            margin-bottom: 20px;
+        }
+        
+        .tab-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .tab {
+            padding: 12px 30px;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            color: #7f8c8d;
+        }
+        
+        .tab.active {
+            color: #3498db;
+        }
+        
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: #3498db;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .success-message {
+            background: #2ecc71;
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            display: none;
+        }
+        
+        .portal-form-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .portal-input-box {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+        
+        .portal-input-box input,
+        .portal-textarea,
+        .portal-select {
+            width: 100%;
+            padding: 15px;
+            font-size: 16px;
+            color: #333;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            margin: 10px 0;
+            transition: border-color 0.3s;
+        }
+        
+        .portal-input-box input:focus,
+        .portal-textarea:focus,
+        .portal-select:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+        
+        .portal-input-box input {
+            width: 48%;
+        }
+        
+        .portal-textarea {
+            resize: none;
+            height: 150px;
+        }
+        
+        .portal-btn {
+            display: inline-block;
+            padding: 12px 25px;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        
+        .portal-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .portal-btn:hover::before {
+            left: 100%;
+        }
+        
+        .portal-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
         @media (max-width: 768px) {
             nav ul {
                 flex-direction: column;
@@ -843,12 +987,21 @@
                 width: 100%;
             }
             
-            .contact-content, .publish-content {
+            .contact-content, .publish-content, .portal-content {
                 padding: 30px 20px;
             }
             
             section h2 {
                 font-size: 1.8rem;
+            }
+            
+            .portal-input-box input {
+                width: 100%;
+            }
+            
+            .tab {
+                padding: 10px 20px;
+                font-size: 1rem;
             }
         }
         
@@ -889,6 +1042,10 @@
             .search-input:focus {
                 width: 75%;
             }
+            
+            .tab {
+                padding: 8px 15px;
+            }
         }
     </style>
 </head>
@@ -903,13 +1060,13 @@
                 </button>
                 <div class="search-results" id="searchResults"></div>
             </li>
+            <li><a href="#" id="portalLink">portal</a></li>
         </ul>
     </nav>
     
     <section class="hero" id="hero">
         <h1>welcome to book-verse</h1>
         <p>Discover amazing action, fantasy, and technology tales that will transport you to new worlds</p>
-
     </section>
     
     <div class="container">
@@ -1056,6 +1213,7 @@
         </div>
     </section>
     
+    <!-- Story Reader Modal -->
     <div class="story-reader" id="storyReader">
         <div class="story-content">
             <div class="close-btn" id="closeReader">X</div>
@@ -1073,6 +1231,61 @@
         </div>
     </div>
     
+    <!-- Portal Modal -->
+    <div class="portal-modal" id="portalModal">
+        <div class="portal-content">
+            <div class="portal-close-btn" id="closePortal">X</div>
+            <h2>Contact & Publish Portal</h2>
+            <div class="tab-container">
+                <button class="tab active" data-tab="contact">Contact Us</button>
+                <button class="tab" data-tab="publish">Publish Story</button>
+            </div>
+            
+            <div class="tab-content active" id="contact">
+                <div class="portal-form-container">
+                    <h2>Contact <span style="color: #3498db;">Us!</span></h2>
+                    <form class="contact-form" action="https://formspree.io/f/xvgwykor" method="POST" id="contactForm">
+                        <div class="portal-input-box">
+                            <input type="text" name="name" placeholder="Full Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="portal-input-box">
+                            <input type="tel" name="phone" placeholder="Mobile Number">
+                            <input type="text" name="subject" placeholder="Email Subject" required>
+                        </div>
+                        <textarea class="portal-textarea" name="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
+                        <button type="submit" class="portal-btn" id="submitContactBtn">Send Message</button>
+                    </form>
+
+                </div>
+            </div>
+            
+            <div class="tab-content" id="publish">
+                <div class="portal-form-container">
+                    <h2>Publish Your <span style="color: #3498db;">Story!</span></h2>
+                    <form class="publish-form" action="https://formspree.io/f/xvgwykor" method="POST" id="publishForm">
+                        <div class="portal-input-box">
+                            <input type="text" name="author-name" placeholder="Author Name" required>
+                            <input type="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="portal-input-box">
+                            <input type="text" name="story-title" placeholder="Story Title" required>
+                            <select class="portal-select" name="story-category" required>
+                                <option value="">Select Category</option>
+                                <option value="fantasy">Fantasy</option>
+                                <option value="action">Action</option>
+                                <option value="tech">Technology</option>
+                                <option value="anime">Anime</option>
+                                <option value="premium">Premium</option>
+                            </select>
+                        </div>
+                        <textarea class="portal-textarea" name="story-content" cols="30" rows="10" placeholder="Your Story (first chapter or full story)" required></textarea>
+                        <button type="submit" class="portal-btn" id="submitPublishBtn">Submit Story</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="scroll-to-top" id="scrollToTop">
         <i class="uil uil-arrow-up"></i>
@@ -1084,10 +1297,6 @@
     </footer>
     
     <script>
-        // Fixed JavaScript error - corrected getElementById
-        const contactModal = document.getElementById('contactModal');
-        const publishModal = document.getElementById('publishModal');
-        
         // Enhanced stories data structure with ALL stories
         const stories = {
             echo: {
@@ -1116,7 +1325,7 @@
                 
                 <p>"He mentioned a 'ghost protocol' in his last message," added Agent Sato, the tech specialist. "But we have no record of what that means. It wasn't in any of our standard protocols."</p>
                 
-                <p>Kaito's mind raced. Echo never used terms lightly. If he'd invented a new protocol, it meant he'd encountered something unprecedented.</p>
+                <p>Kaito's mind raced. Echo never used terms lightly. If he'd invented a new protocol, it means he'd encountered something unprecedented.</p>
                 
                 <p>"I want in," Kaito said, his decision made before the words left his mouth. "Whatever operation you're planning to find out what happened, I'm leading it."</p>
                 
@@ -1146,7 +1355,7 @@
                 
                 <p>He packed light—standard field gear, plus a few personal items Echo had given him over the years. A lockpick set from Prague. A comms device with enhanced encryption. And a photograph of the two of them after their first successful joint operation.</p>
                 
-                <p>As he slipped out into the rainy night, Kaito knew one thing for certain: Echo was alive, and the real battle was just beginning.</p>`
+                <p>As he slipped out into the rainy night, Kaito knew one thing for certain: Echo was alive, and the real battle is just beginning.</p>`
             },
             dragon: {
                 title: "Dragon's Fire",
@@ -1243,7 +1452,6 @@
                 <p>The battle ended in a draw, cementing the legacy of Storm and Flame.</p>
                 <p>The Valley of the End, once a place of death, now stood as a monument to family, bonds, and love shaping the future of the ninja world.</p>`
             },
-            // ADDING ALL THE MISSING STORIES BACK
             realm: {
                 title: "Realm Shift",
                 category: "Fantasy",
@@ -1474,9 +1682,6 @@
         const closeReader = document.getElementById('closeReader');
         const prevStory = document.getElementById('prevStory');
         const nextStory = document.getElementById('nextStory');
-        const contactLink = document.getElementById('contactLink');
-        const closeContact = document.getElementById('closeContact');
-        const closePublish = document.getElementById('closePublish');
         const scrollToTop = document.getElementById('scrollToTop');
         const navbar = document.getElementById('navbar');
         const storyCategory = document.getElementById('storyCategory');
@@ -1485,11 +1690,17 @@
         const publishForm = document.getElementById('publishForm');
         const submitContactBtn = document.getElementById('submitContactBtn');
         const submitPublishBtn = document.getElementById('submitPublishBtn');
-        const publishLink = document.getElementById('publishLink');
         const searchInput = document.querySelector('.search-input');
         const searchBtn = document.querySelector('.search-btn');
         const searchResults = document.getElementById('searchResults');
         const cards = document.querySelectorAll('.card');
+        const portalLink = document.getElementById('portalLink');
+        const portalModal = document.getElementById('portalModal');
+        const closePortal = document.getElementById('closePortal');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const contactSuccess = document.getElementById('contactSuccess');
+        const publishSuccess = document.getElementById('publishSuccess');
 
         // Story navigation
         let currentStoryKey = '';
@@ -1556,6 +1767,21 @@
             }
         });
 
+        // Tab functionality
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabId = tab.getAttribute('data-tab');
+                
+                // Remove active class from all tabs and contents
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(content => content.classList.remove('active'));
+                
+                // Add active class to clicked tab and corresponding content
+                tab.classList.add('active');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+
         // Event Listeners
         readBtns.forEach(btn => {
             btn.addEventListener('click', () => {
@@ -1582,19 +1808,6 @@
             }
         });
 
-        contactLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showModal(contactModal);
-        });
-
-        closeContact.addEventListener('click', () => {
-            hideModal(contactModal);
-        });
-
-        closePublish.addEventListener('click', () => {
-            hideModal(publishModal);
-        });
-
         scrollToTop.addEventListener('click', () => {
             window.scrollTo({
                 top: 0,
@@ -1602,12 +1815,16 @@
             });
         });
 
-        publishLink.addEventListener('click', (e) => {
+        portalLink.addEventListener('click', (e) => {
             e.preventDefault();
-            showModal(publishModal);
+            showModal(portalModal);
         });
 
-        // MODIFIED: Removed alert notifications from form submissions
+        closePortal.addEventListener('click', () => {
+            hideModal(portalModal);
+        });
+
+        // Form submission handlers - CLEANED: No notifications/alerts
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1616,16 +1833,43 @@
             submitContactBtn.innerHTML = '<span class="loading"></span> Sending...';
             submitContactBtn.disabled = true;
             
-            // Simulate form submission without alert notification
-            setTimeout(() => {
-                hideModal(contactModal);
-                contactForm.reset();
+            // Submit to Formspree - SILENT SUBMISSION
+            const formData = new FormData(contactForm);
+            
+            fetch(contactForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    contactForm.reset();
+                    submitContactBtn.innerHTML = originalText;
+                    submitContactBtn.disabled = false;
+                    
+                    // Show success message briefly
+                    contactSuccess.style.display = 'block';
+                    setTimeout(() => {
+                        contactSuccess.style.display = 'none';
+                    }, 3000);
+                    
+                    // Close modal after successful submission
+                    setTimeout(() => {
+                        hideModal(portalModal);
+                    }, 1000);
+                } else {
+                    // Silent failure - just reset button
+                    submitContactBtn.innerHTML = originalText;
+                    submitContactBtn.disabled = false;
+                }
+            }).catch(error => {
+                // Silent failure - just reset button
                 submitContactBtn.innerHTML = originalText;
                 submitContactBtn.disabled = false;
-            }, 2000);
+            });
         });
 
-        // MODIFIED: Removed alert notifications from form submissions
         publishForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1634,13 +1878,41 @@
             submitPublishBtn.innerHTML = '<span class="loading"></span> Submitting...';
             submitPublishBtn.disabled = true;
             
-            // Simulate form submission without alert notification
-            setTimeout(() => {
-                hideModal(publishModal);
-                publishForm.reset();
+            // Submit to Formspree - SILENT SUBMISSION
+            const formData = new FormData(publishForm);
+            
+            fetch(publishForm.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    publishForm.reset();
+                    submitPublishBtn.innerHTML = originalText;
+                    submitPublishBtn.disabled = false;
+                    
+                    // Show success message briefly
+                    publishSuccess.style.display = 'block';
+                    setTimeout(() => {
+                        publishSuccess.style.display = 'none';
+                    }, 3000);
+                    
+                    // Close modal after successful submission
+                    setTimeout(() => {
+                        hideModal(portalModal);
+                    }, 1000);
+                } else {
+                    // Silent failure - just reset button
+                    submitPublishBtn.innerHTML = originalText;
+                    submitPublishBtn.disabled = false;
+                }
+            }).catch(error => {
+                // Silent failure - just reset button
                 submitPublishBtn.innerHTML = originalText;
                 submitPublishBtn.disabled = false;
-            }, 2000);
+            });
         });
 
         // Scroll event for navbar and scroll-to-top button
@@ -1698,18 +1970,15 @@
             if (e.target === storyReader) {
                 hideModal(storyReader);
             }
-            if (e.target === contactModal) {
-                hideModal(contactModal);
-            }
-            if (e.target === publishModal) {
-                hideModal(publishModal);
+            if (e.target === portalModal) {
+                hideModal(portalModal);
             }
         });
 
         // Add some animations on page load
         document.addEventListener('DOMContentLoaded', () => {
             // Animate hero elements
-            const heroElements = document.querySelectorAll('.hero h1, .hero h2, .hero p');
+            const heroElements = document.querySelectorAll('.hero h1, .hero p');
             heroElements.forEach((el, index) => {
                 el.style.opacity = '0';
                 el.style.transform = 'translateY(20px)';
@@ -1742,4 +2011,3 @@
     </script>
 </body>
 </html>
-
