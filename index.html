@@ -930,6 +930,58 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: transform 0.4s ease;
+            max-width: 350px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .notification.success {
+            background: #2ecc71;
+            border-left: 4px solid #27ae60;
+        }
+
+        .notification.error {
+            background: #e74c3c;
+            border-left: 4px solid #c0392b;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: auto;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
         
         @media (max-width: 768px) {
             nav ul {
@@ -1002,6 +1054,17 @@
             .tab {
                 padding: 10px 20px;
                 font-size: 1rem;
+            }
+
+            .notification {
+                right: 10px;
+                left: 10px;
+                max-width: none;
+                transform: translateY(-100px);
+            }
+
+            .notification.active {
+                transform: translateY(0);
             }
         }
         
@@ -1256,7 +1319,6 @@
                         <textarea class="portal-textarea" name="message" cols="30" rows="10" placeholder="Your Message" required></textarea>
                         <button type="submit" class="portal-btn" id="submitContactBtn">Send Message</button>
                     </form>
-
                 </div>
             </div>
             
@@ -1286,6 +1348,9 @@
             </div>
         </div>
     </div>
+
+    <!-- Notification Container -->
+    <div id="notificationContainer"></div>
 
     <div class="scroll-to-top" id="scrollToTop">
         <i class="uil uil-arrow-up"></i>
@@ -1699,12 +1764,54 @@
         const closePortal = document.getElementById('closePortal');
         const tabs = document.querySelectorAll('.tab');
         const tabContents = document.querySelectorAll('.tab-content');
-        const contactSuccess = document.getElementById('contactSuccess');
-        const publishSuccess = document.getElementById('publishSuccess');
+        const notificationContainer = document.getElementById('notificationContainer');
 
         // Story navigation
         let currentStoryKey = '';
         const storyKeys = Object.keys(stories);
+
+        // Notification system
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-icon">
+                    <i class="uil ${type === 'success' ? 'uil-check-circle' : 'uil-exclamation-triangle'}"></i>
+                </div>
+                <div class="notification-message">${message}</div>
+                <button class="notification-close">
+                    <i class="uil uil-times"></i>
+                </button>
+            `;
+            
+            notificationContainer.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.add('active');
+            }, 100);
+            
+            // Auto remove after 5 seconds
+            const autoRemove = setTimeout(() => {
+                hideNotification(notification);
+            }, 5000);
+            
+            // Close button functionality
+            const closeBtn = notification.querySelector('.notification-close');
+            closeBtn.addEventListener('click', () => {
+                clearTimeout(autoRemove);
+                hideNotification(notification);
+            });
+        }
+        
+        function hideNotification(notification) {
+            notification.classList.remove('active');
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.parentNode.removeChild(notification);
+                }
+            }, 400);
+        }
 
         // Search functionality
         searchInput.addEventListener('input', function() {
@@ -1824,7 +1931,7 @@
             hideModal(portalModal);
         });
 
-        // Form submission handlers - CLEANED: No notifications/alerts
+        // Form submission handlers with notifications
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
@@ -1833,7 +1940,7 @@
             submitContactBtn.innerHTML = '<span class="loading"></span> Sending...';
             submitContactBtn.disabled = true;
             
-            // Submit to Formspree - SILENT SUBMISSION
+            // Submit to Formspree
             const formData = new FormData(contactForm);
             
             fetch(contactForm.action, {
@@ -1848,23 +1955,22 @@
                     submitContactBtn.innerHTML = originalText;
                     submitContactBtn.disabled = false;
                     
-                    // Show success message briefly
-                    contactSuccess.style.display = 'block';
-                    setTimeout(() => {
-                        contactSuccess.style.display = 'none';
-                    }, 3000);
+                    // Show success notification
+                    showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
                     
                     // Close modal after successful submission
                     setTimeout(() => {
                         hideModal(portalModal);
                     }, 1000);
                 } else {
-                    // Silent failure - just reset button
+                    // Show error notification
+                    showNotification('Failed to send message. Please try again.', 'error');
                     submitContactBtn.innerHTML = originalText;
                     submitContactBtn.disabled = false;
                 }
             }).catch(error => {
-                // Silent failure - just reset button
+                // Show error notification
+                showNotification('Failed to send message. Please check your connection and try again.', 'error');
                 submitContactBtn.innerHTML = originalText;
                 submitContactBtn.disabled = false;
             });
@@ -1878,7 +1984,7 @@
             submitPublishBtn.innerHTML = '<span class="loading"></span> Submitting...';
             submitPublishBtn.disabled = true;
             
-            // Submit to Formspree - SILENT SUBMISSION
+            // Submit to Formspree
             const formData = new FormData(publishForm);
             
             fetch(publishForm.action, {
@@ -1893,23 +1999,22 @@
                     submitPublishBtn.innerHTML = originalText;
                     submitPublishBtn.disabled = false;
                     
-                    // Show success message briefly
-                    publishSuccess.style.display = 'block';
-                    setTimeout(() => {
-                        publishSuccess.style.display = 'none';
-                    }, 3000);
+                    // Show success notification
+                    showNotification('Story submitted successfully! We\'ll review it soon.', 'success');
                     
                     // Close modal after successful submission
                     setTimeout(() => {
                         hideModal(portalModal);
                     }, 1000);
                 } else {
-                    // Silent failure - just reset button
+                    // Show error notification
+                    showNotification('Failed to submit story. Please try again.', 'error');
                     submitPublishBtn.innerHTML = originalText;
                     submitPublishBtn.disabled = false;
                 }
             }).catch(error => {
-                // Silent failure - just reset button
+                // Show error notification
+                showNotification('Failed to submit story. Please check your connection and try again.', 'error');
                 submitPublishBtn.innerHTML = originalText;
                 submitPublishBtn.disabled = false;
             });
