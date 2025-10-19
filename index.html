@@ -931,7 +931,6 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
-        /* Notification Styles */
         .notification {
             position: fixed;
             top: 100px;
@@ -1276,7 +1275,7 @@
         </div>
     </section>
     
-    <!-- Story Reader Modal -->
+    
     <div class="story-reader" id="storyReader">
         <div class="story-content">
             <div class="close-btn" id="closeReader">X</div>
@@ -1294,7 +1293,7 @@
         </div>
     </div>
     
-    <!-- Portal Modal -->
+    
     <div class="portal-modal" id="portalModal">
         <div class="portal-content">
             <div class="portal-close-btn" id="closePortal">X</div>
@@ -1348,8 +1347,6 @@
             </div>
         </div>
     </div>
-
-    <!-- Notification Container -->
     <div id="notificationContainer"></div>
 
     <div class="scroll-to-top" id="scrollToTop">
@@ -1362,7 +1359,6 @@
     </footer>
     
     <script>
-        // Enhanced stories data structure with ALL stories
         const stories = {
             echo: {
                 title: "Echo",
@@ -1739,7 +1735,7 @@
             }
         };
 
-        // DOM Elements
+    
         const readBtns = document.querySelectorAll('.read-btn');
         const storyReader = document.getElementById('storyReader');
         const storyTitle = document.getElementById('storyTitle');
@@ -1766,11 +1762,11 @@
         const tabContents = document.querySelectorAll('.tab-content');
         const notificationContainer = document.getElementById('notificationContainer');
 
-        // Story navigation
+    
         let currentStoryKey = '';
         const storyKeys = Object.keys(stories);
 
-        // Notification system
+        
         function showNotification(message, type = 'success') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
@@ -1786,17 +1782,16 @@
             
             notificationContainer.appendChild(notification);
             
-            // Show notification
+            
             setTimeout(() => {
                 notification.classList.add('active');
             }, 100);
             
-            // Auto remove after 5 seconds
             const autoRemove = setTimeout(() => {
                 hideNotification(notification);
             }, 5000);
             
-            // Close button functionality
+        
             const closeBtn = notification.querySelector('.notification-close');
             closeBtn.addEventListener('click', () => {
                 clearTimeout(autoRemove);
@@ -1813,7 +1808,7 @@
             }, 400);
         }
 
-        // Search functionality
+        
         searchInput.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase().trim();
             
@@ -1822,14 +1817,14 @@
                 return;
             }
             
-            // Filter cards based on search term
+    
             const filteredCards = Array.from(cards).filter(card => {
                 const title = card.getAttribute('data-title');
                 const category = card.getAttribute('data-category');
                 return title.includes(searchTerm) || category.includes(searchTerm);
             });
             
-            // Display results
+        
             if (filteredCards.length > 0) {
                 searchResults.innerHTML = '';
                 filteredCards.forEach(card => {
@@ -1859,14 +1854,13 @@
             }
         });
 
-        // Close search results when clicking outside
         document.addEventListener('click', function(e) {
             if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                 searchResults.style.display = 'none';
             }
         });
 
-        // Search button functionality
+        
         searchBtn.addEventListener('click', function() {
             const searchTerm = searchInput.value.toLowerCase().trim();
             if (searchTerm.length > 0) {
@@ -1874,22 +1868,22 @@
             }
         });
 
-        // Tab functionality
+        
         tabs.forEach(tab => {
             tab.addEventListener('click', () => {
                 const tabId = tab.getAttribute('data-tab');
                 
-                // Remove active class from all tabs and contents
+        
                 tabs.forEach(t => t.classList.remove('active'));
                 tabContents.forEach(content => content.classList.remove('active'));
                 
-                // Add active class to clicked tab and corresponding content
+        
                 tab.classList.add('active');
                 document.getElementById(tabId).classList.add('active');
             });
         });
 
-        // Event Listeners
+        
         readBtns.forEach(btn => {
             btn.addEventListener('click', () => {
                 currentStoryKey = btn.dataset.story;
@@ -1931,16 +1925,16 @@
             hideModal(portalModal);
         });
 
-        // Form submission handlers with notifications
+        
         contactForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Show loading state
+            
             const originalText = submitContactBtn.innerHTML;
             submitContactBtn.innerHTML = '<span class="loading"></span> Sending...';
             submitContactBtn.disabled = true;
             
-            // Submit to Formspree
+    
             const formData = new FormData(contactForm);
             
             fetch(contactForm.action, {
@@ -1955,21 +1949,21 @@
                     submitContactBtn.innerHTML = originalText;
                     submitContactBtn.disabled = false;
                     
-                    // Show success notification
+            
                     showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
                     
-                    // Close modal after successful submission
+
                     setTimeout(() => {
                         hideModal(portalModal);
                     }, 1000);
                 } else {
-                    // Show error notification
+                    
                     showNotification('Failed to send message. Please try again.', 'error');
                     submitContactBtn.innerHTML = originalText;
                     submitContactBtn.disabled = false;
                 }
             }).catch(error => {
-                // Show error notification
+            
                 showNotification('Failed to send message. Please check your connection and try again.', 'error');
                 submitContactBtn.innerHTML = originalText;
                 submitContactBtn.disabled = false;
@@ -1979,12 +1973,12 @@
         publishForm.addEventListener('submit', (e) => {
             e.preventDefault();
             
-            // Show loading state
+        
             const originalText = submitPublishBtn.innerHTML;
             submitPublishBtn.innerHTML = '<span class="loading"></span> Submitting...';
             submitPublishBtn.disabled = true;
             
-            // Submit to Formspree
+            
             const formData = new FormData(publishForm);
             
             fetch(publishForm.action, {
@@ -1999,37 +1993,37 @@
                     submitPublishBtn.innerHTML = originalText;
                     submitPublishBtn.disabled = false;
                     
-                    // Show success notification
+                    
                     showNotification('Story submitted successfully! We\'ll review it soon.', 'success');
                     
-                    // Close modal after successful submission
+            
                     setTimeout(() => {
                         hideModal(portalModal);
                     }, 1000);
                 } else {
-                    // Show error notification
+                
                     showNotification('Failed to submit story. Please try again.', 'error');
                     submitPublishBtn.innerHTML = originalText;
                     submitPublishBtn.disabled = false;
                 }
             }).catch(error => {
-                // Show error notification
+            
                 showNotification('Failed to submit story. Please check your connection and try again.', 'error');
                 submitPublishBtn.innerHTML = originalText;
                 submitPublishBtn.disabled = false;
             });
         });
 
-        // Scroll event for navbar and scroll-to-top button
+        
         window.addEventListener('scroll', () => {
-            // Navbar effect
+            
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
                 navbar.classList.remove('scrolled');
             }
             
-            // Scroll-to-top button
+
             if (window.scrollY > 300) {
                 scrollToTop.classList.add('active');
             } else {
@@ -2037,7 +2031,7 @@
             }
         });
 
-        // Modal functions
+    
         function showModal(modal) {
             modal.style.display = 'flex';
             setTimeout(() => {
@@ -2054,7 +2048,6 @@
             document.body.style.overflow = 'auto';
         }
 
-        // Story functions
         function showStory(key) {
             const story = stories[key];
             storyTitle.textContent = story.title;
@@ -2070,7 +2063,6 @@
             currentStoryKey = key;
         }
 
-        // Close modals when clicking outside content
         window.addEventListener('click', (e) => {
             if (e.target === storyReader) {
                 hideModal(storyReader);
@@ -2080,9 +2072,9 @@
             }
         });
 
-        // Add some animations on page load
+        /
         document.addEventListener('DOMContentLoaded', () => {
-            // Animate hero elements
+        
             const heroElements = document.querySelectorAll('.hero h1, .hero p');
             heroElements.forEach((el, index) => {
                 el.style.opacity = '0';
@@ -2095,7 +2087,7 @@
                 }, 300 + (index * 200));
             });
             
-            // Animate cards on scroll
+    
             const cards = document.querySelectorAll('.card');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
